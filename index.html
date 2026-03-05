@@ -1,0 +1,185 @@
+<!DOCTYPE html> <!-- Informa ao navegador que o documento usa HTML5 -->
+<html lang="pt-br"> <!-- Define o idioma da página como português do Brasil -->
+
+<head>
+
+<meta charset="UTF-8"> <!-- Permite usar acentos e caracteres especiais (ã, ç, é etc) -->
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Faz a página se adaptar a celulares e tablets (design responsivo) -->
+
+<title>IPO + IF/ELSE + Soma/Média</title> 
+<!-- Texto que aparece na aba do navegador -->
+
+<style>
+
+/* ===== ESTILO DA PÁGINA ===== */
+
+/* Configuração geral do corpo da página */
+body{
+    font-family: arial; /* Fonte usada no texto */
+    margin:0; /* Remove margem externa padrão */
+    padding:20px; /* Espaço interno da página */
+}
+
+/* Caixa principal que contém todo o app */
+.c{
+    max-width:600px; /* largura máxima da caixa */
+    margin:auto; /* centraliza a caixa na tela */
+    border:1px solid #ddd; /* borda cinza clara */
+    border-radius:12px; /* cantos arredondados */
+    padding:14px; /* espaço interno da caixa */
+}
+
+/* Grid para organizar os campos de entrada */
+.g{
+    display:grid; /* ativa layout em grade */
+    grid-template-columns:1fr; /* uma coluna ocupando toda largura */
+    gap:10px; /* espaço entre os elementos */
+}
+
+/* Estilo aplicado aos inputs, select e botão */
+input,select,button{
+    width:100%; /* ocupa toda a largura do container */
+    padding:10px; /* espaço interno */
+    box-sizing:border-box; /* mantém tamanho correto com padding */
+}
+
+/* Área onde o resultado será exibido */
+#out{
+    margin-top:12px; /* espaço acima do resultado */
+    padding:10px; /* espaço interno */
+    border:1px dashed #bbb; /* borda tracejada */
+    border-radius:10px; /* cantos arredondados */
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Conteúdo principal da página -->
+<main class="c">
+
+<h2>Mini App (HTML + CSS + JS)</h2>
+
+<!-- ===== INPUT (ENTRADA DE DADOS) ===== -->
+<div class="g">
+
+<!-- Campo para digitar o nome -->
+<input id="nome" placeholder="Nome">
+
+<!-- Campo para digitar a idade -->
+<input id="idade" type="number" placeholder="Idade (15/20)">
+<!-- type="number" permite apenas números -->
+
+<!-- Campos para digitar as notas -->
+<input id="n1" type="number" step="0.01" placeholder="Nota 1">
+<input id="n2" type="number" step="0.01" placeholder="Nota 2">
+<input id="n3" type="number" step="0.01" placeholder="Nota 3">
+<!-- step="0.01" permite números com casas decimais -->
+
+<!-- Menu de escolha da operação -->
+<select id="op">
+<option value="soma">Somar</option>
+<option value="media">Média</option>
+</select>
+
+</div>
+
+<!-- Botão que executa o programa -->
+<button id="btn" style="margin-top:10px">Executar</button>
+
+<!-- Área onde será mostrado o resultado -->
+<div id="out">Preencha e clique em executar.</div>
+
+</main>
+
+<script>
+
+//
+// ===== FUNÇÃO AUXILIAR =====
+//
+
+// Cria uma função chamada "$" para simplificar a busca de elementos pelo ID
+// Em vez de escrever document.getElementById("nome")
+// podemos escrever apenas $("nome")
+
+const $ = id => document.getElementById(id);
+
+
+//
+// ===== EVENTO DO BOTÃO =====
+//
+
+// Quando o usuário clicar no botão
+$("btn").onclick = () => {
+
+    //
+    // ===== INPUT (ENTRADA DE DADOS) =====
+    //
+
+    // Pega o texto digitado no campo nome
+    // .value acessa o valor digitado
+    // .trim() remove espaços antes e depois do texto
+    // || "Sem nome" define um valor padrão se o campo estiver vazio
+
+    let nome = $("nome").value.trim() || "Sem nome";
+
+    // Converte o valor da idade para número
+    // O sinal + antes do valor transforma string em número
+
+    let idade = +$("idade").value;
+
+    // Pega as notas digitadas e converte para número
+    let n1 = +$("n1").value;
+    let n2 = +$("n2").value;
+    let n3 = +$("n3").value;
+
+
+    //
+    // ===== PROCESSAMENTO =====
+    //
+
+    // Soma das três notas
+    let soma = n1 + n2 + n3;
+
+    // Cálculo da média
+    // Média = soma das notas / quantidade de notas
+    let media = soma / 3;
+
+    // IF simplificado usando operador ternário
+    // Se idade >= 18 então "Maior"
+    // Caso contrário "Menor"
+
+    let status = (idade >= 18) ? "Maior ✅" : "Menor ⚠️";
+
+    // Verifica qual operação foi escolhida no select
+    // Se for "soma" mostra a soma
+    // Caso contrário mostra a média
+
+    let resultado = ($("op").value === "soma")
+        ? soma.toFixed(2)     // mostra 2 casas decimais
+        : media.toFixed(2);
+
+    // .toFixed(2) formata o número com duas casas decimais
+
+
+    //
+    // ===== OUTPUT (SAÍDA) =====
+    //
+
+    // innerHTML permite inserir HTML dentro do elemento
+
+    $("out").innerHTML =
+        `Olá <b>${nome}</b> | Idade: <b>${idade}</b> ➡️ ${status}<br>
+        Notas: ${n1} / ${n2} / ${n3}<br><br>
+        Resultado (${ $("op").value }): <b>${resultado}</b><br>
+        <small>IPO: Entrada ➡️ Processamento ➡️ Saída</small>`;
+
+};
+
+</script>
+
+</body>
+</html>
